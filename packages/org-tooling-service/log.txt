@@ -1,0 +1,28 @@
+
+> org-tooling-service@1.0.0 dev
+> nodemon src/server.ts
+
+[33m[nodemon] 3.1.11[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching path(s): *.*[39m
+[33m[nodemon] watching extensions: ts,json[39m
+[32m[nodemon] starting `ts-node src/server.ts`[39m
+[Org Tooling Service] running on port 3001
+[ToolController] Received 'queryEntities' for system: salesforce
+[AdapterFactory] Creating SalesforceAdapter
+[SalesforceAdapter] Executing SOQL: SELECT Id, Name, LastModifiedDate FROM Account ORDER BY LastModifiedDate DESC LIMIT 5
+[SalesforceAdapter] Cache miss or expired. Initiating new login...
+[SalesforceAdapter] Exchanging JWT for access token...
+[SalesforceAdapter] Authentication Successful. Instance: https://orgfarm-4f54fe8423-dev-ed.develop.my.salesforce.com
+[ToolController] Received 'queryEntities' for system: salesforce
+[AdapterFactory] Creating SalesforceAdapter
+[SalesforceAdapter] Executing SOQL: SELECT Id, Name, Phone, LastModifiedDate FROM Account ORDER BY LastModifiedDate DESC LIMIT 5
+[SalesforceAdapter] Cache miss or expired. Initiating new login...
+[SalesforceAdapter] Exchanging JWT for access token...
+[SalesforceAdapter] Authentication Successful. Instance: https://orgfarm-4f54fe8423-dev-ed.develop.my.salesforce.com
+[ToolController] Received 'queryEntities' for system: salesforce
+[AdapterFactory] Creating SalesforceAdapter
+[SalesforceAdapter] Executing SOQL: SELECT Id, Name, Amount, StageName, CloseDate FROM Opportunity ORDER BY Amount DESC LIMIT 1
+[SalesforceAdapter] Cache miss or expired. Initiating new login...
+[SalesforceAdapter] Exchanging JWT for access token...
+[SalesforceAdapter] Authentication Successful. Instance: https://orgfarm-4f54fe8423-dev-ed.develop.my.salesforce.com

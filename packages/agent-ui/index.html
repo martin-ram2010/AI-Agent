@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Agent Platform | Chat</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Inter:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  </head>
+  <body>
+    <div class="app-container">
+      <header>
+        <div class="logo">
+          <div class="logo-icon"></div>
+          <h1>Bank Agent Intelligence</h1>
+        </div>
+        <div class="header-actions">
+          <div class="status-indicator"><span class="dot"></span> Connected</div>
+          <a href="admin.html" class="admin-link">Admin Logs</a>
+          <button id="new-chat-btn" title="Clear Conversation">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="18" height="18">
+              <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            New Chat
+          </button>
+        </div>
+
+      </header>
+
+      <main id="chat-container">
+        <!-- Messages will appear here -->
+        <div class="welcome-message">
+          <h2>Hello, I'm your AI Banking Agent</h2>
+          <p>
+            I can help you query Salesforce, search knowledge bases, and more.
+            What's on your mind?
+          </p>
+        </div>
+      </main>
+
+      <footer>
+        <form id="chat-form">
+          <div class="input-wrapper">
+            <input
+              type="text"
+              id="user-input"
+              placeholder="Type your request here..."
+              autocomplete="off"
+            />
+            <button type="submit" id="send-btn">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M22 2L11 13"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M22 2L15 22L11 13L2 9L22 2Z"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
+          </div>
+        </form>
+      </footer>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>
