@@ -142,8 +142,12 @@ chatForm.addEventListener('submit', async (e) => {
     }
 
     try {
-        // 4. Call Orchestrator (Absolute URL for local dev)
-        const response = await fetch('http://localhost:3000/v1/agent/chat', {
+        // Detect environment: use localhost for local dev, and relative /orchestrator/ for production (Nginx proxy)
+        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        const API_URL = isLocal ? 'http://localhost:3000/v1/agent/chat' : '/orchestrator/v1/agent/chat';
+
+        // 4. Call Orchestrator
+        const response = await fetch(API_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
