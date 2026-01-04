@@ -91,6 +91,45 @@
             font-family: 'Outfit', sans-serif;
             font-size: 24px;
         }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .admin-container {
+                padding: 20px 10px;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            /* Make table horizontally scrollable */
+            .log-table {
+                display: block;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .log-table thead,
+            .log-table tbody,
+            .log-table tr {
+                display: table;
+                width: 100%;
+                table-layout: fixed;
+            }
+
+            .log-table th,
+            .log-table td {
+                padding: 10px 8px;
+                font-size: 12px;
+            }
+
+            /* Ensure minimum widths for readability */
+            .col-time { min-width: 80px; }
+            .col-type { min-width: 120px; }
+            .col-stage { min-width: 100px; }
+            .col-status { min-width: 80px; }
+            .col-details { min-width: 100px; }
+        }
     </style>
 </head>
 <body>
