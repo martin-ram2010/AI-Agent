@@ -83,10 +83,10 @@ function removeLoading() {
 }
 
 /**
- * Handle New Consultation
+ * Handle New Chat
  */
 newChatBtn.addEventListener('click', () => {
-    if (confirm('Are you sure you want to start a new consultation? History will be cleared.')) {
+    if (confirm('Are you sure you want to start a new chat? History will be cleared.')) {
         conversationHistory = [];
         chatContainer.innerHTML = `
             <div class="welcome-screen">

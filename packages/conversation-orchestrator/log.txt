@@ -387,3 +387,71 @@
 [Orchestrator] LLM Responded. Usage: {"prompt_tokens":36441,"completion_tokens":236,"total_tokens":36677}
 [Orchestrator] Re-identifying Final Output for User...
 [Orchestrator] sending final response.
+[Orchestrator] Validating User Policy...{"context":{"userId":"banker-001","roles":["representative","advisor"]},"messages":[{"role":"user","content":"give me 2 accounts with phone number and 2 opportunity with amount and disposition details"}]}
+[Orchestrator] Sanitizing Input (De-identification)...
+[Orchestrator] Sanitized Input: [{"role":"user","content":"give me 2 accounts with phone number and 2 opportunity with amount and disposition details"}]
+[Orchestrator] Turn 1
+[Orchestrator] Calling LLM with 2 messages...
+[Orchestrator] LLM Responded. Usage: {"prompt_tokens":975,"completion_tokens":60,"total_tokens":1035}
+[Orchestrator] Detected 2 tool calls.
+[ToolExecutor] Executing org_describeEntity
+[ToolExecutor] POST http://127.0.0.1:3001/v1/org/describeEntity
+[ToolExecutor] Payload: {"system":"salesforce","entityName":"Account"}
+[ToolExecutor] Received status 200 from http://127.0.0.1:3001/v1/org/describeEntity
+[ToolExecutor] Executing org_describeEntity
+[ToolExecutor] POST http://127.0.0.1:3001/v1/org/describeEntity
+[ToolExecutor] Payload: {"system":"salesforce","entityName":"Opportunity"}
+[ToolExecutor] Received status 200 from http://127.0.0.1:3001/v1/org/describeEntity
+[Orchestrator] De-identifying Tool Results for OpenAI Privacy...
+[Orchestrator] Turn 2
+[Orchestrator] Calling LLM with 5 messages...
+[Orchestrator] LLM Responded. Usage: {"prompt_tokens":4393,"completion_tokens":82,"total_tokens":4475}
+[Orchestrator] Detected 2 tool calls.
+[ToolExecutor] Executing org_queryEntities
+[ToolExecutor] POST http://127.0.0.1:3001/v1/org/queryEntities
+[ToolExecutor] Payload: {"system":"salesforce","query":"SELECT Id, Name, Phone FROM Account LIMIT 2"}
+[ToolExecutor] Received status 200 from http://127.0.0.1:3001/v1/org/queryEntities
+[ToolExecutor] Executing org_queryEntities
+[ToolExecutor] POST http://127.0.0.1:3001/v1/org/queryEntities
+[ToolExecutor] Payload: {"system":"salesforce","query":"SELECT Id, Name, Amount, StageName, Account.Name FROM Opportunity LIMIT 2"}
+[ToolExecutor] Received status 200 from http://127.0.0.1:3001/v1/org/queryEntities
+[Orchestrator] De-identifying Tool Results for OpenAI Privacy...
+[Orchestrator] Turn 3
+[Orchestrator] Calling LLM with 8 messages...
+[Orchestrator] LLM Responded. Usage: {"prompt_tokens":4878,"completion_tokens":212,"total_tokens":5090}
+[Orchestrator] Re-identifying Final Output for User...
+[Orchestrator] sending final response.
+[Orchestrator] Validating User Policy...{"context":{"userId":"banker-001","roles":["representative","advisor"]},"messages":[{"role":"user","content":"give me 2 accounts with phone number and 2 opportunity with amount and disposition details"}]}
+[Orchestrator] Sanitizing Input (De-identification)...
+[Orchestrator] Sanitized Input: [{"role":"user","content":"give me 2 accounts with phone number and 2 opportunity with amount and disposition details"}]
+[Orchestrator] Turn 1
+[Orchestrator] Calling LLM with 2 messages...
+[Orchestrator] LLM Responded. Usage: {"prompt_tokens":975,"completion_tokens":60,"total_tokens":1035}
+[Orchestrator] Detected 2 tool calls.
+[ToolExecutor] Executing org_describeEntity
+[ToolExecutor] POST http://127.0.0.1:3001/v1/org/describeEntity
+[ToolExecutor] Payload: {"system":"salesforce","entityName":"Account"}
+[ToolExecutor] Received status 200 from http://127.0.0.1:3001/v1/org/describeEntity
+[ToolExecutor] Executing org_describeEntity
+[ToolExecutor] POST http://127.0.0.1:3001/v1/org/describeEntity
+[ToolExecutor] Payload: {"system":"salesforce","entityName":"Opportunity"}
+[ToolExecutor] Received status 200 from http://127.0.0.1:3001/v1/org/describeEntity
+[Orchestrator] De-identifying Tool Results for OpenAI Privacy...
+[Orchestrator] Turn 2
+[Orchestrator] Calling LLM with 5 messages...
+[Orchestrator] LLM Responded. Usage: {"prompt_tokens":4393,"completion_tokens":82,"total_tokens":4475}
+[Orchestrator] Detected 2 tool calls.
+[ToolExecutor] Executing org_queryEntities
+[ToolExecutor] POST http://127.0.0.1:3001/v1/org/queryEntities
+[ToolExecutor] Payload: {"system":"salesforce","query":"SELECT Id, Name, Phone FROM Account LIMIT 2"}
+[ToolExecutor] Received status 200 from http://127.0.0.1:3001/v1/org/queryEntities
+[ToolExecutor] Executing org_queryEntities
+[ToolExecutor] POST http://127.0.0.1:3001/v1/org/queryEntities
+[ToolExecutor] Payload: {"system":"salesforce","query":"SELECT Id, Name, Amount, StageName, Account.Name FROM Opportunity LIMIT 2"}
+[ToolExecutor] Received status 200 from http://127.0.0.1:3001/v1/org/queryEntities
+[Orchestrator] De-identifying Tool Results for OpenAI Privacy...
+[Orchestrator] Turn 3
+[Orchestrator] Calling LLM with 8 messages...
+[Orchestrator] LLM Responded. Usage: {"prompt_tokens":4878,"completion_tokens":213,"total_tokens":5091}
+[Orchestrator] Re-identifying Final Output for User...
+[Orchestrator] sending final response.
