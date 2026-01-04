@@ -1,43 +1,76 @@
 const chatContainer = document.getElementById('chat-container');
 const chatForm = document.getElementById('chat-form');
 const userInput = document.getElementById('user-input');
+const newChatBtn = document.getElementById('new-chat-btn');
 
 let conversationHistory = [];
 
+// Configure marked for professional table rendering
+marked.setOptions({
+    gfm: true,
+    breaks: true
+});
+
+/**
+ * Appends a message to the chat container with professional styling
+ */
 function appendMessage(role, content, toolCalls = []) {
-    const messageDiv = document.createElement('div');
-    messageDiv.className = `message ${role}`;
+    // Remove welcome screen if it exists
+    const welcome = document.querySelector('.welcome-screen');
+    if (welcome) welcome.remove();
 
-    // Use marked for assistant messages to handle markdown
-    const formattedContent = role === 'assistant' ? marked.parse(content) : escapeHtml(content);
-    let html = `<div class="bubble">${formattedContent}</div>`;
+    const wrapper = document.createElement('div');
+    wrapper.className = `message-wrapper ${role}`;
 
+    // Meta information (e.g., "ASSISTANT", "YOU")
+    const meta = document.createElement('div');
+    meta.className = 'message-meta';
+    meta.textContent = role === 'assistant' ? 'Financial Intelligence Agent' : 'User (Banker)';
+    wrapper.appendChild(meta);
+
+    // Message bubble
+    const bubble = document.createElement('div');
+    bubble.className = 'message-bubble';
+
+    // Use marked for assistant messages to handle professional markdown/tables
+    if (role === 'assistant') {
+        bubble.innerHTML = marked.parse(content);
+    } else {
+        bubble.textContent = content; // User messages are plain text for safety
+    }
+    
+    wrapper.appendChild(bubble);
+
+    // Tool Execution Badges
     if (toolCalls && toolCalls.length > 0) {
         toolCalls.forEach(call => {
-            html += `
-                <div class="tool-execution">
-                    ⚡ Executing <span class="tool-name">${call.function.name}</span>
-                </div>
+            const badge = document.createElement('div');
+            badge.className = 'tool-badge';
+            badge.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                <span>Analysis: <strong>${call.function.name}</strong></span>
             `;
+            wrapper.appendChild(badge);
         });
     }
 
-    messageDiv.innerHTML = html;
-    chatContainer.appendChild(messageDiv);
+    chatContainer.appendChild(wrapper);
     chatContainer.scrollTop = chatContainer.scrollHeight;
-
-    // Remove welcome message if it exists
-    const welcome = document.querySelector('.welcome-message');
-    if (welcome) welcome.remove();
 }
 
+/**
+ * Shows a professional typing indicator
+ */
 function showLoading() {
     const loadingDiv = document.createElement('div');
     loadingDiv.id = 'loading';
-    loadingDiv.className = 'message assistant';
+    loadingDiv.className = 'message-wrapper assistant';
     loadingDiv.innerHTML = `
-        <div class="loading-dots">
-            <span></span><span></span><span></span>
+        <div class="message-meta">Agent is thinking...</div>
+        <div class="message-bubble">
+            <div class="typing-indicator">
+                <span></span><span></span><span></span>
+            </div>
         </div>
     `;
     chatContainer.appendChild(loadingDiv);
@@ -49,21 +82,24 @@ function removeLoading() {
     if (loading) loading.remove();
 }
 
-// 0. New Chat Logic
-const newChatBtn = document.getElementById('new-chat-btn');
+/**
+ * Handle New Consultation
+ */
 newChatBtn.addEventListener('click', () => {
-    conversationHistory = [];
-    chatContainer.innerHTML = `
-        <div class="welcome-message">
-          <h2>Hello, I'm your AI Orchestrator</h2>
-          <p>
-            I can help you query Salesforce, search knowledge bases, and more.
-            What's on your mind?
-          </p>
-        </div>
-    `;
+    if (confirm('Are you sure you want to start a new consultation? History will be cleared.')) {
+        conversationHistory = [];
+        chatContainer.innerHTML = `
+            <div class="welcome-screen">
+                <h2>Financial Intelligence Agent</h2>
+                <p>Welcome back. I'm ready to assist with your CRM records, banking procedures, or compliance queries.</p>
+            </div>
+        `;
+    }
 });
 
+/**
+ * Main Chat Submission
+ */
 chatForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const text = userInput.value.trim();
@@ -73,41 +109,43 @@ chatForm.addEventListener('submit', async (e) => {
     const userMessage = { role: 'user', content: text };
     conversationHistory.push(userMessage);
     appendMessage('user', text);
+    
+    // Reset textarea height
     userInput.value = '';
+    userInput.style.height = 'auto';
 
     // 2. Show Loading
     showLoading();
 
-    // 3. Sliding Window Strategy: Keep last 15 messages to optimize tokens
+    // 3. Sliding Window Strategy (Keep last 15 messages)
     const MAX_HISTORY = 15;
     let historyPayload = conversationHistory.slice(-MAX_HISTORY);
 
-    // Safety: ensure it doesn't start with a 'tool' message as it requires a preceding 'assistant' call
+    // Safety: ensure it doesn't start with a 'tool' message
     while (historyPayload.length > 0 && historyPayload[0].role === 'tool') {
         historyPayload.shift();
     }
 
     try {
-        // 4. Call Orchestrator
-        const response = await fetch('http://localhost:3000/v1/agent/chat', {
+        // 4. Call Orchestrator (Relative URL for deployment flexibility)
+        const response = await fetch('/orchestrator/v1/agent/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                context: { userId: 'web-user', roles: ['admin'] },
+                context: { userId: 'banker-001', roles: ['representative', 'advisor'] },
                 messages: historyPayload
             })
         });
 
-        if (!response.ok) throw new Error('Failed to connect to orchestrator');
+        if (!response.ok) throw new Error('Communication failure with core services.');
 
         const data = await response.json();
         removeLoading();
 
-        // 5. Update local history from the "Clean" server response
-        // Merge server response back into local history
+        // 5. Update local history from server response
         conversationHistory = data.messages;
         
-        // 6. Render the LAST assistant response
+        // 6. Render the latest assistant response
         const lastMsg = conversationHistory[conversationHistory.length - 1];
         if (lastMsg && lastMsg.role === 'assistant') {
             appendMessage('assistant', lastMsg.content, lastMsg.tool_calls);
@@ -115,12 +153,9 @@ chatForm.addEventListener('submit', async (e) => {
 
     } catch (error) {
         removeLoading();
-        appendMessage('assistant', `Error: ${error.message}. Is the Orchestrator running on port 3000?`);
+        appendMessage('assistant', `System Alert: ${error.message}. Please verify core orchestrator service status.`);
     }
 });
 
-function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-}
+// Initial Focus
+userInput.focus();
