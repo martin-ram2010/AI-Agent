@@ -172,3 +172,13 @@ chatForm.addEventListener('submit', async (e) => {
 
 // Initial Focus
 userInput.focus();
+
+/**
+ * BFCache Fix: Ensure history is wiped if the user navigates back to this page
+ */
+window.addEventListener('pageshow', (event) => {
+    if (event.persisted) {
+        // If the page was restored from the back/forward cache, refresh it to ensure a clean state
+        window.location.reload();
+    }
+});
