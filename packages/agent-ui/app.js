@@ -98,6 +98,7 @@ function removeLoading() {
 newChatBtn.addEventListener('click', () => {
     if (confirm('Are you sure you want to start a new chat? History will be cleared.')) {
         conversationHistory = [];
+        saveHistory();
         chatContainer.innerHTML = `
             <div class="welcome-screen">
                 <div class="welcome-logo">
@@ -121,6 +122,7 @@ chatForm.addEventListener('submit', async (e) => {
     // 1. Add User Message
     const userMessage = { role: 'user', content: text };
     conversationHistory.push(userMessage);
+    saveHistory();
     appendMessage('user', text);
     
     // Reset textarea height
@@ -157,6 +159,7 @@ chatForm.addEventListener('submit', async (e) => {
 
         // 5. Update local history from server response
         conversationHistory = data.messages;
+        saveHistory();
         
         // 6. Render the latest assistant response
         const lastMsg = conversationHistory[conversationHistory.length - 1];
@@ -170,25 +173,27 @@ chatForm.addEventListener('submit', async (e) => {
     }
 });
 
-// Initial Focus
-userInput.focus();
-
 /**
- * BFCache & Navigation Fix: Ensure history is wiped if the user navigates back to this page
+ * Persistence Layer: Handle session history
  */
-window.addEventListener('pageshow', (event) => {
-    // 1. Check if the page was restored from cache
-    // 2. OR check if we explicitly marked this session for reset (navigated from Audit Logs)
-    if (event.persisted || sessionStorage.getItem('reset_chat') === 'true') {
-        sessionStorage.removeItem('reset_chat');
-        window.location.reload();
-    }
-});
+function saveHistory() {
+    sessionStorage.setItem('conversationHistory', JSON.stringify(conversationHistory));
+}
 
-// Mark for reset when navigating to Audit Logs
-document.addEventListener('click', (e) => {
-    const link = e.target.closest('a');
-    if (link && link.getAttribute('href') === 'admin.html') {
-        sessionStorage.setItem('reset_chat', 'true');
+function loadHistory() {
+    const saved = sessionStorage.getItem('conversationHistory');
+    if (saved) {
+        conversationHistory = JSON.parse(saved);
+        // Clean render
+        chatContainer.innerHTML = '';
+        conversationHistory.forEach(msg => {
+            if (msg.role !== 'system') {
+                appendMessage(msg.role, msg.content, msg.tool_calls);
+            }
+        });
     }
-});
+}
+
+// Initial session load
+loadHistory();
+userInput.focus();
