@@ -174,11 +174,21 @@ chatForm.addEventListener('submit', async (e) => {
 userInput.focus();
 
 /**
- * BFCache Fix: Ensure history is wiped if the user navigates back to this page
+ * BFCache & Navigation Fix: Ensure history is wiped if the user navigates back to this page
  */
 window.addEventListener('pageshow', (event) => {
-    if (event.persisted) {
-        // If the page was restored from the back/forward cache, refresh it to ensure a clean state
+    // 1. Check if the page was restored from cache
+    // 2. OR check if we explicitly marked this session for reset (navigated from Audit Logs)
+    if (event.persisted || sessionStorage.getItem('reset_chat') === 'true') {
+        sessionStorage.removeItem('reset_chat');
         window.location.reload();
+    }
+});
+
+// Mark for reset when navigating to Audit Logs
+document.addEventListener('click', (e) => {
+    const link = e.target.closest('a');
+    if (link && link.getAttribute('href') === 'admin.html') {
+        sessionStorage.setItem('reset_chat', 'true');
     }
 });
