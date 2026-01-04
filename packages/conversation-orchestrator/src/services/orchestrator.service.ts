@@ -387,7 +387,7 @@ END OF RULES
 
           return {
             sessionId: request.context?.sessionId || 'new-session',
-            messages: reidentifiedMessages,
+            messages: reidentifiedMessages.filter(m => m.role !== 'system'),
             usage: cumulativeUsage
           };
         }
