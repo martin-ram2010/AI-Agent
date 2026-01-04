@@ -187,7 +187,8 @@ function loadHistory() {
         // Clean render
         chatContainer.innerHTML = '';
         conversationHistory.forEach(msg => {
-            if (msg.role !== 'system') {
+            // Only render user and assistant messages for the UI
+            if (msg.role === 'user' || msg.role === 'assistant') {
                 appendMessage(msg.role, msg.content, msg.tool_calls);
             }
         });
