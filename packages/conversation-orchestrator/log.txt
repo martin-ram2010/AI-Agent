@@ -1356,3 +1356,15 @@
 [LLMGateway] Initialized with provider: openai, model: gpt-4o-mini
 [AuditService] SQLite Database Initialized at C:\Ranjan\Development Projects\AI Agent with MCP\packages\conversation-orchestrator\audit_logs.db
 [Conversation Orchestrator] running on port 3000
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `ts-node src/server.ts`[39m
+[LLMGateway] Initialized with provider: openai, model: gpt-4o-mini
+[AuditService] SQLite Database Initialized at C:\Ranjan\Development Projects\AI Agent with MCP\packages\conversation-orchestrator\audit_logs.db
+[Conversation Orchestrator] running on port 3000
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `ts-node src/server.ts`[39m
+[LLMGateway] Initialized with provider: openai, model: gpt-4o-mini
+[AuditService] SQLite Database Initialized at C:\Ranjan\Development Projects\AI Agent with MCP\packages\conversation-orchestrator\audit_logs.db
+[Conversation Orchestrator] running on port 3000

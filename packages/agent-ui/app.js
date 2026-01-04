@@ -1,4 +1,5 @@
 const chatContainer = document.getElementById('chat-container');
+const chatInner = document.querySelector('.chat-inner');
 const chatForm = document.getElementById('chat-form');
 const userInput = document.getElementById('user-input');
 const newChatBtn = document.getElementById('new-chat-btn');
@@ -93,7 +94,7 @@ function appendMessage(role, content, toolCalls = []) {
         });
     }
 
-    chatContainer.appendChild(wrapper);
+    chatInner.appendChild(wrapper);
     chatContainer.scrollTop = chatContainer.scrollHeight;
 }
 
@@ -112,7 +113,7 @@ function showLoading() {
             </div>
         </div>
     `;
-    chatContainer.appendChild(loadingDiv);
+    chatInner.appendChild(loadingDiv);
     chatContainer.scrollTop = chatContainer.scrollHeight;
 }
 
@@ -128,7 +129,7 @@ newChatBtn.addEventListener('click', () => {
     if (confirm('Are you sure you want to start a new chat? History will be cleared.')) {
         conversationHistory = [];
         saveHistory();
-        chatContainer.innerHTML = `
+        chatInner.innerHTML = `
             <div class="welcome-screen">
                 <div class="welcome-logo">
                     <img src="assets/avatar.avif" alt="Banker Avatar" style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit;">
@@ -224,7 +225,7 @@ function loadHistory() {
     if (saved) {
         conversationHistory = JSON.parse(saved);
         // Clean render
-        chatContainer.innerHTML = '';
+        chatInner.innerHTML = '';
         conversationHistory.forEach(msg => {
             // Only render user and assistant messages for the UI
             // SKIP intermediate assistant messages that have no content (tool-only turns)
