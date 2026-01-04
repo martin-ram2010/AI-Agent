@@ -127,8 +127,8 @@ chatForm.addEventListener('submit', async (e) => {
     }
 
     try {
-        // 4. Call Orchestrator (Relative URL for deployment flexibility)
-        const response = await fetch('/orchestrator/v1/agent/chat', {
+        // 4. Call Orchestrator (Absolute URL for local dev)
+        const response = await fetch('http://localhost:3000/v1/agent/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
