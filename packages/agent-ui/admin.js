@@ -4,7 +4,11 @@ let currentLogs = [];
 
 async function fetchLogs() {
     try {
-        const response = await fetch('http://127.0.0.1:3000/v1/admin/logs?limit=50');
+        // Detect environment: use localhost for local dev, and relative /orchestrator/ for production (Nginx proxy)
+        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        const API_URL = isLocal ? 'http://localhost:3000/v1/admin/logs?limit=50' : '/orchestrator/v1/admin/logs?limit=50';
+        
+        const response = await fetch(API_URL);
         currentLogs = await response.json();
         renderLogs(currentLogs);
     } catch (error) {

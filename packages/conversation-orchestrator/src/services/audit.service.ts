@@ -17,7 +17,12 @@ export class AuditService {
   private static instance: AuditService;
 
   private constructor() {
-    const dbPath = path.resolve(__dirname, '../../audit_logs.db');
+    // Standardize to absolute path; use home dir for production stability
+    const isLinux = process.platform === 'linux';
+    const dbPath = isLinux 
+      ? '/home/ubuntu/AI-Agent/packages/conversation-orchestrator/audit_logs.db'
+      : path.resolve(__dirname, '../../audit_logs.db');
+      
     this.db = new Database(dbPath);
     this.init();
   }
