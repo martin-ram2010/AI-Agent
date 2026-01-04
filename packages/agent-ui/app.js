@@ -146,6 +146,8 @@ chatForm.addEventListener('submit', async (e) => {
         const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
         const API_URL = isLocal ? 'http://localhost:3000/v1/agent/chat' : '/orchestrator/v1/agent/chat';
 
+        console.log(`[Diagnostic] Calling Orchestrator: ${API_URL}`);
+        
         // 4. Call Orchestrator
         const response = await fetch(API_URL, {
             method: 'POST',
@@ -156,7 +158,11 @@ chatForm.addEventListener('submit', async (e) => {
             })
         });
 
-        if (!response.ok) throw new Error('Communication failure with core services.');
+        if (!response.ok) {
+            const errorText = await response.text().catch(() => 'No error detail');
+            console.error(`[Diagnostic] Server Error: ${response.status}`, errorText);
+            throw new Error(`Communication failure (Status: ${response.status})`);
+        }
 
         const data = await response.json();
         removeLoading();
