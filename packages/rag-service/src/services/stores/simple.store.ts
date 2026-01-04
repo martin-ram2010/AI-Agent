@@ -54,17 +54,23 @@ export class SimpleVectorStore implements VectorStore {
     
     try {
       const queryEmbedding = await this.embeddingService.generateEmbedding(query);
+      console.log(`[SimpleVectorStore] Query embedding length: ${queryEmbedding.length}`);
       
       const results = this.documents
-        .filter(doc => doc.embedding && doc.embedding.length > 0)
+        .filter(doc => {
+          const hasEmbedding = doc.embedding && doc.embedding.length > 0;
+          if (!hasEmbedding) console.log(`[SimpleVectorStore] Document ${doc.id} missing embedding`);
+          return hasEmbedding;
+        })
         .map(doc => {
           const score = this.cosineSimilarity(queryEmbedding, doc.embedding!);
           return { ...doc, score };
         })
-        .sort((a, b) => b.score - a.score)
-        .slice(0, k);
+        .sort((a, b) => b.score - a.score);
 
-      return results;
+      console.log(`[SimpleVectorStore] Found ${results.length} potentials. Top score: ${results[0]?.score}`);
+      
+      return results.slice(0, k);
     } catch (error) {
       console.error('[SimpleVectorStore] Search Error:', error);
       // Fallback to keyword matching if embedding fails
