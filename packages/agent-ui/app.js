@@ -25,7 +25,17 @@ function appendMessage(role, content, toolCalls = []) {
     // Meta information (e.g., "ASSISTANT", "YOU")
     const meta = document.createElement('div');
     meta.className = 'message-meta';
-    meta.textContent = role === 'assistant' ? 'Financial Intelligence Agent' : 'User (Banker)';
+    
+    if (role === 'assistant') {
+        meta.innerHTML = `
+            <div class="meta-avatar">
+                <img src="assets/avatar.avif" alt="Agent">
+            </div>
+            <span>Financial Intelligence Agent</span>
+        `;
+    } else {
+        meta.textContent = 'User (Banker)';
+    }
     wrapper.appendChild(meta);
 
     // Message bubble
@@ -90,6 +100,9 @@ newChatBtn.addEventListener('click', () => {
         conversationHistory = [];
         chatContainer.innerHTML = `
             <div class="welcome-screen">
+                <div class="welcome-logo">
+                    <img src="assets/avatar.avif" alt="Banker Avatar" style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit;">
+                </div>
                 <h2>Financial Intelligence Agent</h2>
                 <p>Welcome back. I'm ready to assist with your CRM records, banking procedures, or compliance queries.</p>
             </div>
