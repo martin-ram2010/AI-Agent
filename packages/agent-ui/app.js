@@ -15,6 +15,33 @@ marked.setOptions({
 const mobileMenuBtn = document.getElementById('mobile-menu-btn');
 const sidebar = document.querySelector('.sidebar');
 const overlay = document.getElementById('sidebar-overlay');
+const sidebarToggleBtn = document.getElementById('sidebar-toggle-btn');
+
+// Desktop Sidebar Collapse/Expand
+if (sidebarToggleBtn) {
+    // Load saved state
+    const savedState = localStorage.getItem('sidebarCollapsed');
+    if (savedState === 'true') {
+        sidebar.classList.add('sidebar-collapsed');
+    }
+
+    sidebarToggleBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('sidebar-collapsed');
+        const isCollapsed = sidebar.classList.contains('sidebar-collapsed');
+        localStorage.setItem('sidebarCollapsed', isCollapsed);
+        
+        // Update button text
+        const buttonText = sidebarToggleBtn.querySelector('span:not(.toggle-icon)');
+        const buttonIcon = sidebarToggleBtn.querySelector('.toggle-icon polyline');
+        if (isCollapsed) {
+            buttonText.textContent = 'Expand';
+            buttonIcon.setAttribute('points', '9 18 15 12 9 6');
+        } else {
+            buttonText.textContent = 'Collapse';
+            buttonIcon.setAttribute('points', '15 18 9 12 15 6');
+        }
+    });
+}
 
 if (mobileMenuBtn) {
     mobileMenuBtn.addEventListener('click', () => {
