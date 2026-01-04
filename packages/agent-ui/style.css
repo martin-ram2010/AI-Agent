@@ -465,9 +465,110 @@ button#send-btn:disabled {
   40% { transform: scale(1.2); opacity: 1; }
 }
 
-/* Utility Classes */
-.glass {
-  background: var(--bg-glass);
-  backdrop-filter: blur(16px);
-  border: 1px solid var(--border-glass);
+/* Mobile Responsiveness */
+.mobile-only-flex {
+  display: none;
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 9;
+}
+
+.sidebar-overlay.active {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --sidebar-width: 260px;
+    --header-height: 60px;
+  }
+
+  body {
+    overflow: hidden;
+  }
+
+  .mobile-only-flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hide-mobile {
+    display: none;
+  }
+
+  aside.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5);
+  }
+
+  aside.sidebar.sidebar-open {
+    transform: translateX(0);
+  }
+
+  header.app-header {
+    padding: 0 1rem;
+    gap: 1rem;
+  }
+
+  #chat-container {
+    padding: 1rem;
+    gap: 1.5rem;
+  }
+
+  .welcome-screen h2 {
+    font-size: 1.75rem;
+  }
+
+  .welcome-screen p {
+    font-size: 0.95rem;
+  }
+
+  .message-wrapper {
+    max-width: 95%;
+  }
+
+  .message-bubble {
+    padding: 1rem;
+    font-size: 0.9rem;
+  }
+
+  /* Make tables scrollable on mobile */
+  .message-bubble table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+  }
+
+  .input-area {
+    padding: 1rem;
+  }
+
+  .input-container {
+    padding: 0.5rem;
+    border-radius: 1rem;
+  }
+
+  textarea#user-input {
+    font-size: 0.95rem;
+  }
 }

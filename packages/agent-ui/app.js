@@ -5,11 +5,40 @@ const newChatBtn = document.getElementById('new-chat-btn');
 
 let conversationHistory = [];
 
-// Configure marked for professional table rendering
 marked.setOptions({
     gfm: true,
     breaks: true
 });
+
+// Mobile Sidebar Toggle Logic
+const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+const sidebar = document.querySelector('.sidebar');
+const overlay = document.getElementById('sidebar-overlay');
+
+if (mobileMenuBtn) {
+    mobileMenuBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('sidebar-open');
+        overlay.classList.toggle('active');
+    });
+}
+
+if (overlay) {
+    overlay.addEventListener('click', () => {
+        sidebar.classList.remove('sidebar-open');
+        overlay.classList.remove('active');
+    });
+}
+
+// Close sidebar on nav item click (mobile)
+document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', () => {
+        if (window.innerWidth <= 768) {
+            sidebar.classList.remove('sidebar-open');
+            overlay.classList.remove('active');
+        }
+    });
+});
+
 
 /**
  * Appends a message to the chat container with professional styling
