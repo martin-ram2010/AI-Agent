@@ -17,7 +17,7 @@ export class AuditService {
   private static instance: AuditService;
 
   private constructor() {
-    const dbPath = path.resolve(process.cwd(), 'audit_logs.db');
+    const dbPath = path.resolve(__dirname, '../../audit_logs.db');
     this.db = new Database(dbPath);
     this.init();
   }
