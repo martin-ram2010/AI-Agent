@@ -2,7 +2,7 @@ import axios from 'axios';
 import fs from 'fs';
 import path from 'path';
 
-const FILES_DIR = path.join(__dirname, '../../knowledge_base');
+const FILES_DIR = path.join(__dirname, '../knowledge_base');
 const API_URL = 'http://localhost:3003/v1/rag/ingest-file';
 
 async function ingestFiles() {
