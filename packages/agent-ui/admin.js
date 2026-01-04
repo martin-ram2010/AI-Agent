@@ -24,12 +24,12 @@ function renderLogs(logs) {
         const timestamp = new Date(log.timestamp).toLocaleTimeString();
         
         row.innerHTML = `
-            <td>${timestamp}</td>
-            <td><span class="type-badge">${log.type}</span></td>
-            <td>${log.stage}</td>
-            <td>${log.message}</td>
-            <td><span class="status-${log.status}">${log.status}</span></td>
-            <td>
+            <td class="col-time">${timestamp}</td>
+            <td class="col-type"><span class="type-badge">${log.type}</span></td>
+            <td class="col-stage">${log.stage}</td>
+            <td class="col-message">${log.message}</td>
+            <td class="col-status"><span class="status-${log.status}">${log.status}</span></td>
+            <td class="col-details">
                 <div class="metadata-cell" onclick="viewPayload(${index})">
                     ${log.metadata ? 'View Details' : 'N/A'}
                 </div>
