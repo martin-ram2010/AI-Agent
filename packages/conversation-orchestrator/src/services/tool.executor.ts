@@ -1,8 +1,8 @@
 import { ToolCall } from '../interfaces/chat.types';
 
 export class ToolExecutor {
-  private orgServiceUrl = 'http://127.0.0.1:3001/v1/org';
-  private ragServiceUrl = 'http://127.0.0.1:3002/v1/rag';
+  private orgServiceUrl = process.env.ORG_SERVICE_URL || 'http://127.0.0.1:3002/v1/org';
+  private ragServiceUrl = process.env.RAG_SERVICE_URL || 'http://127.0.0.1:3003/v1/rag';
 
   public async executeToolCalls(toolCalls: ToolCall[]): Promise<any[]> {
     const results = [];
