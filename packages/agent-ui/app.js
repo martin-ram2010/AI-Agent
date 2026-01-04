@@ -188,7 +188,8 @@ function loadHistory() {
         chatContainer.innerHTML = '';
         conversationHistory.forEach(msg => {
             // Only render user and assistant messages for the UI
-            if (msg.role === 'user' || msg.role === 'assistant') {
+            // SKIP intermediate assistant messages that have no content (tool-only turns)
+            if (msg.role === 'user' || (msg.role === 'assistant' && msg.content && msg.content.trim())) {
                 appendMessage(msg.role, msg.content, msg.tool_calls);
             }
         });
