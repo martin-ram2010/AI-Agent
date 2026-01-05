@@ -5,7 +5,7 @@ const verifyRag = async () => {
     const response = await fetch('http://localhost:3003/v1/rag/search', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text: 'payment transfer' })
+      body: JSON.stringify({ query: 'payment transfer' })
     });
 
     if (!response.ok) {
