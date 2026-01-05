@@ -1,4 +1,4 @@
-const pdf = require('pdf-parse');
+const pdfModule = require('pdf-parse');
 import mammoth from 'mammoth';
 
 export interface Chunk {
@@ -11,6 +11,11 @@ export class ProcessorService {
    * Parses a PDF buffer into raw text.
    */
   public async parsePDF(buffer: Buffer): Promise<string> {
+    // Handle potential CommonJS export mismatch
+    const pdf = pdfModule.default || pdfModule;
+    if (typeof pdf !== 'function') {
+        throw new Error('Failed to load pdf-parse function: pdf module is not a function');
+    }
     const data = await pdf(buffer);
     return data.text;
   }
