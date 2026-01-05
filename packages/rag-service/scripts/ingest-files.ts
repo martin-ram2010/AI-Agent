@@ -12,7 +12,7 @@ async function ingestFiles() {
   }
 
   const files = fs.readdirSync(FILES_DIR);
-  const supportedExtensions = ['.pdf', '.docx', '.txt'];
+  const supportedExtensions = ['.pdf', '.docx', '.txt', '.md'];
 
   console.log(`Scanning directory: ${FILES_DIR}`);
   
