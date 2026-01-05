@@ -153,19 +153,28 @@ function removeLoading() {
  * Handle New Chat
  */
 newChatBtn.addEventListener('click', () => {
-    if (confirm('Are you sure you want to start a new chat? History will be cleared.')) {
-        conversationHistory = [];
-        saveHistory();
-        chatInner.innerHTML = `
-            <div class="welcome-screen">
-                <div class="welcome-logo">
-                    <img src="assets/avatar.avif" alt="Banker Avatar" style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit;">
-                </div>
-                <h2>Financial Intelligence Agent</h2>
-                <p>Welcome back. I'm ready to assist with your CRM records, banking procedures, or compliance queries.</p>
-            </div>
-        `;
+    // Close sidebar first to prevent UI locking on mobile
+    if (window.innerWidth <= 768) {
+        sidebar.classList.remove('sidebar-open');
+        overlay.classList.remove('active');
     }
+
+    // Small delay to allow UI to update before blocking with confirm
+    setTimeout(() => {
+        if (confirm('Are you sure you want to start a new chat? History will be cleared.')) {
+            conversationHistory = [];
+            saveHistory();
+            chatInner.innerHTML = `
+                <div class="welcome-screen">
+                    <div class="welcome-logo">
+                        <img src="assets/avatar.avif" alt="Banker Avatar" style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit;">
+                    </div>
+                    <h2>Financial Intelligence Agent</h2>
+                    <p>Welcome back. I'm ready to assist with your CRM records, banking procedures, or compliance queries.</p>
+                </div>
+            `;
+        }
+    }, 100);
 });
 
 /**

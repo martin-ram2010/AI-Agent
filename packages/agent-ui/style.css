@@ -40,7 +40,8 @@ body {
   background-color: var(--bg-deep);
   color: var(--text-primary);
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  height: 100vh;
+  height: 100vh; /* Fallback */
+  height: 100dvh;
   overflow: hidden;
   display: flex;
 }
